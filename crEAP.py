@@ -182,8 +182,8 @@ def eapol_header(packet):
                             print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" User ID:       " + str(USER)
                             addtolist(USER)
         except:
-            #print "\n" + bcolors.FAIL + "[!]" + bcolors.ENDC + " Something wasn't able to parse correctly, (TLS?) exection will continue.\n"    
-            print "\n" + bcolors.FAIL + "[!]" + bcolors.ENDC + " Python Scapy not able to extract EAPOL data, make sure scapy-com is installed which supports EAP types.  (https://bitbucket.org/secdev/scapy-com)\n"    
+            print "\n" + bcolors.FAIL + "[!]" + bcolors.ENDC + " Something wasn't able to parse correctly, (TLS?) exection will continue.\n"    
+            #print "\n" + bcolors.FAIL + "[!]" + bcolors.ENDC + " Python Scapy not able to extract EAPOL data, make sure scapy-com is installed which supports EAP types.  (https://bitbucket.org/secdev/scapy-com)\n"    
             #sys.exit(0)
 
 
