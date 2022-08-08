@@ -4,6 +4,8 @@ The tool `crEAP.py` is used to try harvesting Radius usernames and handshakes.
 
 Thanks to the usernames found by `crEAP.py`, they can be used as identities for the tool [EAP_buster](https://github.com/blackarrowsec/EAP_buster) in order to list what EAP methods are supported by the RADIUS server behind a WPA-Enterprise access point.
 
+
+
 # Requirements
 
 It requires to install [Scapy-com](https://github.com/Tylous/Scapy-com).
@@ -12,7 +14,7 @@ It requires to install [Scapy-com](https://github.com/Tylous/Scapy-com).
 
 # Usage
 
-Start `creaAP`
+Execute `creaAP.py`.
 
 ```bash
 sudo python2.7 crEAP.py -i <MANAGED_WIFI_IF> -c <VICTIMS_AP_CHANNEL> 
