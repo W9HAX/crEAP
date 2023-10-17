@@ -26,7 +26,7 @@ Then, you need to wait for a **NEW** user to log in to the network.
 
 ```bash
 while true; do sudo python2.7 crEAP.py -i wlan0 -c 1 2>&1 1>>/tmp/crEAP_output.txt ; done
-while true; do sudo kill -SIGINT $(ps aux | grep crEAP | awk '{print $2}'); sleep 10 ;; done
+while true; do sudo kill -SIGINT $(ps aux | grep crEAP | awk '{print $2}'); sleep 10 ; done
 
 # Obtain all the harvested users
 grep "Unique Harvested Users" -A 1 /tmp/crEAP_output.txt
