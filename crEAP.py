@@ -120,7 +120,7 @@ def live():
 		print bcolors.WARNING + "\n[-]"+ bcolors.ENDC + " Enabling monitor interface and channel..."
 		subprocess.Popen("airmon-ng check kill", shell=True, stdout=subprocess.PIPE).stdout.read()
 		subprocess.Popen("airmon-ng start "+adapter, shell=True, stdout=subprocess.PIPE).stdout.read()
-		adapter=adapter+"mon"
+		adapter=adapter
 	except:
 		print "\n" + bcolors.FAIL + "[!]" + bcolors.ENDC + " Unable to enable MONITOR mode, exiting.\n"
 	
@@ -154,6 +154,7 @@ def eapol_header(packet):
 						USERID=pkt[EAP].id
 						if pkt[EAP].code == 2:
 							USER=pkt[EAP].identity
+							print(pkt[EAP])
 					#EAP-MD5 - Credit to EAPMD5crack for logic assistance
 					if pkt[EAP].type==4:  #Found EAP-MD5
 						EAPID=pkt[EAP].id
@@ -161,7 +162,7 @@ def eapol_header(packet):
 							md5challenge[EAPID]=pkt[EAP].load[1:17]
 							network = bssids[pkt.addr2]
 							print "\n" + bcolors.OKGREEN + "[!]" + bcolors.ENDC +" EAP-MD5 Authentication Detected"
-							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" BSSID:         " + (network)
+							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" BSSID:         " + str(network)
 							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" Auth ID:       " + str(USERID)
 							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" User ID:       " + str(USER)
 							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" MD5 Challenge: " + md5challenge[EAPID].encode("hex")
@@ -175,7 +176,7 @@ def eapol_header(packet):
 						if pkt[EAP].code == 2:
 							network = bssids[pkt.addr1] #reverse as it is the destination mac (Client->Server Identify)
 							print "\n" + bcolors.OKGREEN + "[!]" + bcolors.ENDC +" EAP-PEAP Authentication Detected"
-							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" BSSID:         " + (network)
+							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" BSSID:         " + str(network)
 							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" Auth ID:       " + str(USERID)
 							print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" User ID:       " + str(USER)
 							addtolist(USER)
@@ -187,7 +188,7 @@ def eapol_header(packet):
 							USER = str(USER).strip("{}")
 							if USER is not '':
 								print "\n" + bcolors.OKGREEN + "[!]" + bcolors.ENDC +" EAP-TLS Response ID Detected"
-								print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" BSSID:        " + (network)
+								print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" BSSID:        " + str(network)
 								print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" Auth ID:      " + str(USERID)
 								print bcolors.OKGREEN + "[-]" + bcolors.ENDC +" User ID:      " + str(USER)
 								addtolist(USER)
@@ -196,10 +197,11 @@ def eapol_header(packet):
  						if pkt[EAP].code == 2:
 							network = bssids[pkt.addr2]
 							# print "\n" + bcolors.OKGREEN + "[!]" + bcolors.ENDC +" EAP-TLS Authentication Detected"
-		except:
+		except Exception as e:
 			print "\n" + bcolors.FAIL + "[!]" + bcolors.ENDC + " Something wasn't able to parse correctly, exection will continue.\n"
+			print e
 			#print "\n" + bcolors.FAIL + "[!]" + bcolors.ENDC + " Python Scapy not able to extract EAPOL data, make sure scapy-com is installed which supports EAP types.  (https://bitbucket.org/secdev/scapy-com)\n"
-			#sys.exit(0)
+			sys.exit(0)
 def get_bssid(pkt):
 	global bssids
 	if pkt.haslayer(Dot11):
@@ -244,3 +246,4 @@ else:
 print bcolors.OKGREEN + "[-]"+ bcolors.ENDC + " Unique Harvested Users:"
 print checked
 print "\n"
+
